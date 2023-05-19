@@ -231,6 +231,7 @@ bool MonsterMHit(int pnum, int monsterId, int mindam, int maxdam, int dist, Miss
 #ifdef _DEBUG
 		if (!DebugGodMode)
 #endif
+			// HEHE: 100 % hit chance (normal hit chance by uncommenting the line below)
 			return false;
 	}
 
@@ -255,6 +256,9 @@ bool MonsterMHit(int pnum, int monsterId, int mindam, int maxdam, int dist, Miss
 		dam <<= 6;
 	if (resist)
 		dam >>= 2;
+
+	// HEHE: increase damage (one shots butcher)
+	dam = 30000;
 
 	if (&player == MyPlayer)
 		ApplyMonsterDamage(damageType, monster, dam);

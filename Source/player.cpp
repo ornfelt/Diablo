@@ -694,6 +694,8 @@ bool PlrHitMonst(Player &player, Monster &monster, bool adjacentDamage = false)
 			dam = monster.hitPoints; /* ensure monster is killed with one hit */
 		}
 #endif
+		// HEHE: increase damage (not working as expected, maybe only works with specific classes?)
+		//dam = 10000;
 		ApplyMonsterDamage(DamageType::Physical, monster, dam);
 	}
 
@@ -950,6 +952,8 @@ bool DoRangeAttack(Player &player)
 			dmg = player._pIFMinDam + GenerateRnd(player._pIFMaxDam - player._pIFMinDam);
 			mistype = MissileID::SpectralArrow;
 		}
+		// HEHE: increase damage (not working as expected either)
+		dmg = 1000;
 
 		AddMissile(
 		    player.position.tile,
@@ -1113,6 +1117,7 @@ bool DoDeath(Player &player)
 			player.AnimInfo.ticksPerFrame = 100;
 			dFlags[player.position.tile.x][player.position.tile.y] |= DungeonFlag::DeadPlayer;
 		} else if (&player == MyPlayer && player.AnimInfo.tickCounterOfCurrentFrame == 30) {
+			// HEHE: haven't changed this
 			MyPlayerIsDead = true;
 			if (!gbIsMultiplayer) {
 				gamemenu_on();
@@ -2685,6 +2690,8 @@ void StartPlrHit(Player &player, int dam, bool forcehit)
 	} else {
 		skippedAnimationFrames = 0;
 	}
+	// HEHE: skip hit animation frames always
+	skippedAnimationFrames = 4;
 
 	NewPlrAnim(player, player_graphic::Hit, pd, AnimationDistributionFlags::None, skippedAnimationFrames);
 
@@ -2877,8 +2884,10 @@ void SyncPlrKill(Player &player, DeathReason deathReason)
 		return;
 	}
 
-	SetPlayerHitPoints(player, 0);
-	StartPlayerKill(player, deathReason);
+	// HEHE: can't die
+	SetPlayerHitPoints(player, 64);
+	//SetPlayerHitPoints(player, 0);
+	//StartPlayerKill(player, deathReason);
 }
 
 void RemovePlrMissiles(const Player &player)

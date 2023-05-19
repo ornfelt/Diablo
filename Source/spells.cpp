@@ -162,8 +162,11 @@ void ConsumeSpell(Player &player, SpellID sn)
 			break;
 #endif
 		int ma = GetManaAmount(player, sn);
-		player._pMana -= ma;
-		player._pManaBase -= ma;
+		// HEHE: don't reduce mana if already 0 or below
+		if (player._pMana >= 0) {
+			player._pMana -= ma;
+			player._pManaBase -= ma;
+		}
 		RedrawComponent(PanelDrawComponent::Mana);
 		break;
 	}
@@ -201,9 +204,10 @@ SpellCheckResult CheckSpell(const Player &player, SpellID sn, SpellType st, bool
 		return SpellCheckResult::Fail_Level0;
 	}
 
-	if (player._pMana < GetManaAmount(player, sn)) {
-		return SpellCheckResult::Fail_NoMana;
-	}
+	// HEHE: can cast spells even without mana
+	//if (player._pMana < GetManaAmount(player, sn)) {
+	//	return SpellCheckResult::Fail_NoMana;
+	//}
 
 	return SpellCheckResult::Success;
 }
