@@ -35,7 +35,7 @@ jobs:
         cache: gradle
 
     - name: Cache CMake build folder
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: android-project/app/.cxx
         key: ${{ github.workflow }}-v1-${{ github.sha }}
